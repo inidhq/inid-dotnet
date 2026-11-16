@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>InID</RootNamespace>
+    <PackageId>InID</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>InID</Authors>
+    <Description>Sign-in with InID for .NET servers: the sign-in routes, the session in its cookies (renewed before it ends), path protection, webhooks and the app API.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://inid.co</PackageProjectUrl>
+    <PackageTags>inid;oidc;authentication;sign-in</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+</Project>

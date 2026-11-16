@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>InID.AspNetCore</RootNamespace>
+    <PackageId>InID.AspNetCore</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>InID</Authors>
+    <Description>Sign-in with InID for ASP.NET Core: AddInID, the UseInID middleware (routes, session renewal, protected paths), authorization policies and the sign-in HTML helpers.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://inid.co</PackageProjectUrl>
+    <PackageTags>inid;oidc;authentication;aspnetcore</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="..\InID\InID.csproj" />
+  </ItemGroup>
+
+</Project>
