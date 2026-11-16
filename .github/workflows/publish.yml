@@ -1,0 +1,41 @@
+name: publish
+# A version tag (from release.yml): its GitHub release, with what changed since the last one,
+# and the package on its registry. Each registry step runs once the registry is set up and
+# the repo variable that turns it on is "true" (see RELEASING.md in InID's repo).
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: write
+  id-token: write
+jobs:
+  github:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          previous=$(git describe --tags --abbrev=0 --match 'v[0-9]*' "$GITHUB_REF_NAME^" 2>/dev/null || true)
+          git log --format='- %s' "${previous:+$previous..}$GITHUB_REF_NAME" -- . ':(exclude).github' > notes.md
+          gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file notes.md --verify-tag
+  nuget:
+    needs: github
+    if: vars.PUBLISH_NUGET == 'true'
+    runs-on: ubuntu-latest
+    environment: nuget
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - run: dotnet pack -c Release -p:Version="${GITHUB_REF_NAME#v}" -o out
+      # NuGet's trusted publishing: a short-lived key for this run
+      - uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ vars.NUGET_USER }}
+      - run: dotnet nuget push "out/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
